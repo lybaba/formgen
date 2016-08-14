@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { render } from 'react-dom';
+import { connect, Provider } from 'react-redux'
 import bankStore from './bankStore';
 import constants from './constants';
+import bankActionCreators from './bankActionCreators';
 import './main.css';
 
 class BankApp extends Component {
@@ -27,6 +29,15 @@ class BankApp extends Component {
         <button onClick={this.handleWithdraw.bind(this)}>Withdraw</button>
         <button onClick={this.handleDeposit.bind(this)}>Deposit</button>
         </div>
+        <div className="exchange" onClick={this.props.onToggle}>
+        <strong>Exchange Rates:</strong>
+        <div className={this.props.showExchange? 'exchange--visible' : 'exchange--closed'}>
+        <strong>$1 USD =</strong>
+        <span className="rate">0.9990 EUR</span>
+        <span className="rate">0.7989 GBP</span>
+        <span className="rate">710.15 JPY</span>
+        </div>
+        </div>
         </div>
         );
   }
@@ -34,37 +45,33 @@ class BankApp extends Component {
 
 BankApp.propTypes = {
   balance: PropTypes.number,
+  showExchange: PropTypes.bool,
   onDeposit: PropTypes.func,
-  onWithdraw: PropTypes.func
+  onWithdraw: PropTypes.func,
+  onToggle: PropTypes.func,
 };
 
-class BankAppContainer extends Component {
-  constructor(...args) {
-    super(...args);
-    bankStore.dispatch({type:constants.CREATE_ACCOUNT})
-      this.state = {
-        balance: bankStore.getState().balance
-      }
-  }
-  componentDidMount() {
-    this.unsubscribe = bankStore.subscribe(() =>
-        this.setState({balance: bankStore.getState().balance})
-        );
-  }
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-  render(){
-    return(
-        <BankApp
-        balance={ bankStore.getState().balance }
-        onDeposit={ (amount)=>bankStore.dispatch(
-          {type:constants.DEPOSIT_INTO_ACCOUNT, amount:amount} )}
-        onWithdraw={ (amount)=>bankStore.dispatch(
-          {type:constants.WITHDRAW_FROM_ACCOUNT, amount:amount} )}
-        />
-        )
+// Generate a container app by Mapping state and dispatch to props
+const mapStateToProps = (state) => {
+  return {
+    balance: state.balance,
+      showExchange: state.ui.showExchange,
   }
 }
-render(<BankAppContainer />, document.getElementById('root'));
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onDeposit: (amount) => dispatch(bankActionCreators.depositIntoAccount(amount)),
+    onWithdraw: (amount) => dispatch(bankActionCreators.withdrawFromAccount(amount)),
+    onToggle: () => dispatch(bankActionCreators.toggleExchange()),
+  }
+}
+
+const BankAppContainer = connect(mapStateToProps, mapDispatchToProps)(BankApp)
+
+render(
+    <Provider store={bankStore}>
+    <BankAppContainer />
+    </Provider>,
+    document.getElementById('root')
+    );
 
