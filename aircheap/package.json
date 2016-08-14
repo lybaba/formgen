@@ -1,0 +1,40 @@
+{
+  "name": "formgen",
+  "version": "0.1.0",
+  "description": "Tool to create advanced html forms",
+  "author": "Babaly Ly",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lybaba/formgen/issues"
+  },
+  "homepage": "https://github.com/lybaba/formgen#readme",
+  "scripts": {
+    "start": "node_modules/.bin/webpack-dev-server --progress",
+    "build": "NODE_ENV=production node_modules/.bin/webpack --config  ./webpack.config.production.js -p --progress --colors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lybaba/formgen.git"
+  },
+  "devDependencies": {
+    "babel-core": "~6.0.*",
+    "babel-loader": "~6.0.*",
+    "babel-preset-es2015": "~6.0.*",
+    "babel-preset-react": "~6.0.*",
+    "webpack": "~1.12.*",
+    "webpack-dev-server": "~1.12.*"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.1.4",
+    "flux": "^2.1.1",
+    "react": "^15.0.2",
+    "react-addons-update": "^15.0.2",
+    "react-autosuggest-legacy": "^2.2.6",
+    "react-dom": "^15.0.2",
+    "react-redux": "^4.4.0",
+    "react-select": "^1.0.0-beta13",
+    "redux": "^3.3.1",
+    "redux-thunk": "^2.1.0",
+    "whatwg-fetch": "^0.10.1"
+  }
+}
