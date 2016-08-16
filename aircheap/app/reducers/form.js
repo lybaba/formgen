@@ -1,4 +1,4 @@
-import { RECEIVE_FORM_BY_ID } from '../constants';
+import { RECEIVE_FORM_BY_ID_SUCCESS } from '../constants';
 
 const initialState = {
   id: '',
@@ -8,8 +8,9 @@ const initialState = {
 
 const form = (state = initialState, action) => {
   switch (action.type) {
-    case RECEIVE_FORM_BY_ID:
-      return action.form;
+    case RECEIVE_FORM_BY_ID_SUCCESS:
+      console.log("Toto......");
+      return action.form.wfc;
     default:
       return state;
   }

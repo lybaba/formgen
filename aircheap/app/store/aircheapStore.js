@@ -16,3 +16,4 @@ const aircheapStore = createStore(
 );
 
 export default aircheapStore;
+window.Store = aircheapStore ;
