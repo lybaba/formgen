@@ -12,12 +12,11 @@ const dateConfig = {
 
 class FormConfigItem extends Component {
   render() {
-    let {form} = this.props.form;
+    let {form} = this.props;
 
     return(
       <div className='form'>
         <span className="form-name">{form.name}</span>
-        <span className="form-desc">{form.description}</span>
       </div>
     );
   }
