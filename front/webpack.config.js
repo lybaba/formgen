@@ -1,35 +1,50 @@
 var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = {
+/*
+ * Default webpack configuration for development
+ */
+var config = {
   devtool: 'eval-source-map',
-  entry: __dirname + "/app/App.js",
+  entry:  __dirname + "/app/App.js",
   output: {
     path: __dirname + "/public",
     filename: "bundle.js"
   },
   module: {
-    loaders: [
-    { test: /\.json$/, loader: "json" },
-    { test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
-    {
-      test: /\.css$/,
-      loader: 'style!css?modules!postcss'
-    }
-    ]
+    loaders: [{
+      test: /\.jsx?$/,
+      exclude: /node_modules/,
+      loader: 'babel',
+      query: {
+        presets: ['es2015','react']
+      }
+    }]
   },
-  postcss: [
-    require('autoprefixer')
-    ],
   plugins: [
     new webpack.BannerPlugin("Copyright WonderForm inc."),
     new webpack.HotModuleReplacementPlugin()
-    ],
+  ],
   devServer: {
     contentBase: "./public",
     colors: true,
     historyApiFallback: true,
     inline: true,
     hot: true
-  }
+  },
 }
+
+/*
+ * If bundling for production, optimize output
+ */
+if (process.env.NODE_ENV === 'production') {
+  config.devtool = false;
+  config.plugins = [
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin({comments: false}),
+    new webpack.DefinePlugin({
+      'process.env': {NODE_ENV: JSON.stringify('production')}
+    })
+  ];
+};
+
+module.exports = config;

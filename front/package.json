@@ -1,8 +1,8 @@
 {
   "name": "formgen",
   "version": "0.1.0",
-  "description": "Tool to create advanced html forms",
-  "author": "Babaly Ly",
+  "description": "FormGen App",
+  "author": "Babaly LY",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/lybaba/formgen/issues"
@@ -10,7 +10,7 @@
   "homepage": "https://github.com/lybaba/formgen#readme",
   "scripts": {
     "start": "node_modules/.bin/webpack-dev-server --progress",
-    "build": "NODE_ENV=production node_modules/.bin/webpack --config  ./webpack.config.production.js -p --progress --colors"
+    "build": "NODE_ENV=production node_modules/.bin/webpack -p --progress --colors"
   },
   "repository": {
     "type": "git",
